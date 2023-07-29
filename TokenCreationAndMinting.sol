@@ -98,4 +98,5 @@ contract MyToken {
 
         emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
     }
+
 }
