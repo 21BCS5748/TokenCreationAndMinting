@@ -30,7 +30,7 @@ contract MyToken {
         balance[contractOwner] = tokenTotalSupply;
     }
 
-    function transfer(address _to, uint256 _value) external returns (bool) {
+    function transfer(address _to, uint256 _value) external {
         require(_to != address(0), "Invalid recipient address");
         require(balance[msg.sender] >= _value, "Insufficient balance");
 
@@ -38,19 +38,17 @@ contract MyToken {
         balance[_to] += _value;
 
         emit Transfer(msg.sender, _to, _value);
-        return true;
     }
 
-    function approve(address _spender, uint256 _value) external returns (bool) {
+    function approve(address _spender, uint256 _value) external {
         require(_spender != address(0), "Invalid spender address");
 
         allowance[msg.sender][_spender] = _value;
 
         emit Approval(msg.sender, _spender, _value);
-        return true;
     }
 
-    function transferFrom(address _from, address _to, uint256 _value) external returns (bool) {
+    function transferFrom(address _from, address _to, uint256 _value) external {
         require(_from != address(0), "Invalid sender address");
         require(_to != address(0), "Invalid recipient address");
         require(balance[_from] >= _value, "Insufficient balance");
@@ -61,7 +59,6 @@ contract MyToken {
         allowance[_from][msg.sender] -= _value;
 
         emit Transfer(_from, _to, _value);
-        return true;
     }
 
     function mint(address _to, uint256 _value) external onlyOwner {
@@ -84,16 +81,15 @@ contract MyToken {
         emit Burn(msg.sender, _value);
     }
 
-    function increaseAllowance(address _spender, uint256 _addedValue) external returns (bool) {
+    function increaseAllowance(address _spender, uint256 _addedValue) external {
         require(_spender != address(0), "Invalid spender address");
 
         allowance[msg.sender][_spender] += _addedValue;
 
         emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
-        return true;
     }
 
-    function decreaseAllowance(address _spender, uint256 _subtractedValue) external returns (bool) {
+    function decreaseAllowance(address _spender, uint256 _subtractedValue) external {
         require(_spender != address(0), "Invalid spender address");
         uint256 currentAllowance = allowance[msg.sender][_spender];
         require(currentAllowance >= _subtractedValue, "Decreased allowance below zero");
@@ -101,6 +97,5 @@ contract MyToken {
         allowance[msg.sender][_spender] = currentAllowance - _subtractedValue;
 
         emit Approval(msg.sender, _spender, allowance[msg.sender][_spender]);
-        return true;
     }
 }
